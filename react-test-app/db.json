@@ -1,0 +1,66 @@
+{
+    "users": [
+        {
+            "id": "1",
+            "nameSurname": "test",
+            "email": "test@example.com",
+            "Date": "2013-02-08",
+            "gender": "male",
+            "password": "password123"
+        },
+        {
+            "id": "9bc2"
+        },
+        {
+            "id": "4aff",
+            "nameSurname": "testburçin",
+            "email": "burcineeren@gmail.com",
+            "date": "2024-12-30",
+            "gender": "female",
+            "password": "555554444"
+        },
+        {
+            "id": "fa30",
+            "nameSurname": "sss",
+            "email": "burcineeren@gmail.com",
+            "date": "2025-01-06",
+            "gender": "male",
+            "password": "wwwwwwwwwww"
+        }
+    ],
+    "profile": {
+        "name": "typicode"
+    },
+    "fakeNews": [
+        {
+            "id": "1",
+            "title": "Yeni Yapay Zeka Modeli Tanıtıldı",
+            "category": "Teknoloji",
+            "date": "2024-01-07"
+        },
+        {
+            "id": "2",
+            "title": "Futbol Takımı Büyük Zafer Kazandı",
+            "category": "Spor",
+            "date": "2024-01-06"
+        },
+        {
+            "id": "3",
+            "title": "Yeni Seçim Kararı Açıklandı",
+            "category": "Politika",
+            "date": "2024-01-05"
+        },
+        {
+            "id": "4",
+            "title": "Bitcoin Fiyatı Rekor Kırdı",
+            "category": "Teknoloji",
+            "date": "2024-01-04"
+        },
+        {
+            "id": "5",
+            "title": "NBA Final Maçı Nefes Kesti",
+            "category": "Spor",
+            "date": "2024-01-03"
+        }
+    ]
+}

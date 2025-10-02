@@ -25,7 +25,7 @@ export function Sidebar({ onSignOut }: SidebarProps) {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col">
+    <aside className="w-64 bg-white border-r border-gray-200 min-h-screen flex flex-col relative">
       {/* Logo */}
       <div className="p-6 border-b border-gray-200">
         <div className="flex items-center gap-2">
@@ -37,7 +37,7 @@ export function Sidebar({ onSignOut }: SidebarProps) {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 p-4">
+      <nav className="flex-1 p-4 overflow-y-auto">
         <ul className="space-y-2">
           {navItems.map((item) => (
             <li key={item.id}>
@@ -61,8 +61,8 @@ export function Sidebar({ onSignOut }: SidebarProps) {
         </ul>
       </nav>
 
-      {/* Bottom Actions */}
-      <div className="p-4 border-t border-gray-200 space-y-2">
+      {/* Bottom Actions - Fixed at the bottom */}
+      <div className="sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 space-y-2">
         <button className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-gray-600 hover:bg-gray-50 transition-all duration-200">
           <HelpCircle className="w-5 h-5" />
           <span className="text-sm">Help</span>

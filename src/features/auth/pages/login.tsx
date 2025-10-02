@@ -4,21 +4,11 @@ import { useFormValidation } from "../../../shared/hooks";
 import { FormInput } from "../components/form-input";
 import { SubmitButton } from "../components/submit-button";
 import { GoogleSignInButton } from "../components/google-sign-in-button";
-import signBgImage from "../../../assets/sign-bg.png";
+import { useNavigate, Link } from "react-router-dom";
 import logoImage from "../../../assets/logo.png";
-import { Link } from "react-router-dom";
-
-interface SignInProps {
-  onSignIn: () => void;
-}
-
+import signBgImage from "../../../assets/sign-bg.png";
 // Zod validation schema
-const signInSchema = z.object({
-  fullName: z
-    .string()
-    .min(1, "Ad Soyad gereklidir")
-    .min(3, "Ad Soyad en az 3 karakter olmalıdır")
-    .max(50, "Ad Soyad en fazla 50 karakter olabilir"),
+const loginSchema = z.object({
   email: z
     .string()
     .min(1, "E-posta gereklidir")
@@ -26,22 +16,21 @@ const signInSchema = z.object({
   password: z
     .string()
     .min(1, "Şifre gereklidir")
-    .min(6, "Şifre en az 6 karakter olmalıdır")
-    .max(100, "Şifre en fazla 100 karakter olabilir"),
+    .min(6, "Şifre en az 6 karakter olmalıdır"),
 });
 
-type SignInFormData = z.infer<typeof signInSchema>;
+type LoginFormData = z.infer<typeof loginSchema>;
 
-export function SignIn({ onSignIn }: SignInProps) {
-  const [formData, setFormData] = useState<SignInFormData>({
-    fullName: "",
+export function Login() {
+  const [formData, setFormData] = useState<LoginFormData>({
     email: "",
     password: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const navigate = useNavigate();
 
-  const { errors, validateForm, clearError } = useFormValidation(signInSchema);
+  const { errors, validateForm, clearError } = useFormValidation(loginSchema);
 
   useEffect(() => {
     setMounted(true);
@@ -51,7 +40,6 @@ export function SignIn({ onSignIn }: SignInProps) {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       clearError(name);
     }
@@ -59,27 +47,42 @@ export function SignIn({ onSignIn }: SignInProps) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("user", JSON.stringify(formData));
-    // Validate form
+
     if (!validateForm(formData)) {
       return;
     }
 
-    // Simulate API call with loading state
     setIsLoading(true);
 
     setTimeout(() => {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: formData.email,
+          isGoogleSignIn: false,
+          lastLogin: new Date().toISOString(),
+        })
+      );
+
       setIsLoading(false);
-      onSignIn();
+      navigate("/dashboard");
     }, 1500);
   };
 
   const handleGoogleSignIn = () => {
-    // Simulate Google sign in
     setIsLoading(true);
     setTimeout(() => {
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: "google.user@example.com",
+          isGoogleSignIn: true,
+          lastLogin: new Date().toISOString(),
+        })
+      );
+
       setIsLoading(false);
-      onSignIn();
+      navigate("/dashboard");
     }, 1000);
   };
 
@@ -109,37 +112,25 @@ export function SignIn({ onSignIn }: SignInProps) {
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              Create new account
+              Welcome back
             </h2>
             <p className="text-gray-600 text-sm">
-              Welcome back! Please enter your details
+              Please enter your credentials to sign in
             </p>
           </div>
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="flex flex-col gap-5">
             <FormInput
-              label="Full Name"
-              name="fullName"
-              type="text"
-              placeholder="Mahfuzul Nabil"
-              value={formData.fullName}
-              onChange={handleInputChange}
-              error={errors.fullName}
-              autoComplete="name"
-            />
-
-            <FormInput
               label="Email"
               name="email"
               type="email"
-              placeholder="example@gmail.com"
+              placeholder="your@email.com"
               value={formData.email}
               onChange={handleInputChange}
               error={errors.email}
               autoComplete="email"
             />
-
             <FormInput
               label="Password"
               name="password"
@@ -148,11 +139,11 @@ export function SignIn({ onSignIn }: SignInProps) {
               value={formData.password}
               onChange={handleInputChange}
               error={errors.password}
-              autoComplete="new-password"
+              autoComplete="current-password"
             />
 
             <SubmitButton isLoading={isLoading} className="mt-2">
-              Create Account
+              Sign In
             </SubmitButton>
           </form>
 
@@ -165,19 +156,14 @@ export function SignIn({ onSignIn }: SignInProps) {
           {/* Google Sign In */}
           <GoogleSignInButton onClick={handleGoogleSignIn} />
 
-          {/* Sign In Link */}
+          {/* Sign Up Link */}
           <p className="text-center text-sm text-gray-600 mt-6">
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
               to="/login"
               className="text-gray-900 font-semibold hover:underline"
             >
-              <button
-                type="button"
-                className="text-gray-900 font-semibold hover:underline"
-              >
-                Sign in
-              </button>
+              Sign up
             </Link>
           </p>
         </div>
@@ -192,11 +178,11 @@ export function SignIn({ onSignIn }: SignInProps) {
           ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}
         `}
       >
-        <div className="relative w-full h-full flex items-center justify-center">
+        <div className="w-4/5 max-w-2xl">
           <img
             src={signBgImage}
-            alt="Sign in illustration"
-            className="max-w-full max-h-full object-contain animate-fade-in"
+            alt="Authentication"
+            className="rounded-2xl shadow-2xl"
           />
         </div>
       </div>

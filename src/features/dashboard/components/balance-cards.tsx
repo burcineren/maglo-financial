@@ -1,12 +1,12 @@
-import { formatCurrency } from '../../../shared/utils';
-import type { ReactNode } from 'react';
+import { formatCurrency } from "../../../shared/utils";
+import type { ReactNode } from "react";
 
 interface BalanceCard {
   id: string;
   label: string;
   amount: number;
   icon: string | ReactNode;
-  variant?: 'primary' | 'secondary';
+  variant?: "primary" | "secondary";
   currency?: string;
 }
 
@@ -23,9 +23,9 @@ export function BalanceCards({ cards }: BalanceCardsProps) {
           className={`
             p-6 rounded-2xl transition-all duration-300 hover:scale-105
             ${
-              card.variant === 'primary'
-                ? 'bg-gray-900 text-white'
-                : 'bg-white border border-gray-200'
+              card.variant === "primary"
+                ? "bg-gray-900 text-white"
+                : "bg-white border border-gray-200"
             }
           `}
           style={{
@@ -36,7 +36,7 @@ export function BalanceCards({ cards }: BalanceCardsProps) {
             <div
               className={`
               w-10 h-10 rounded-lg flex items-center justify-center text-xl
-              ${card.variant === 'primary' ? 'bg-[#c4d82e]' : 'bg-gray-100'}
+              ${card.variant === "primary" ? "bg-[#c4d82e]" : "bg-gray-100"}
             `}
             >
               {card.icon}
@@ -44,7 +44,7 @@ export function BalanceCards({ cards }: BalanceCardsProps) {
           </div>
           <p
             className={`text-sm mb-2 ${
-              card.variant === 'primary' ? 'text-gray-400' : 'text-gray-600'
+              card.variant === "primary" ? "text-gray-400" : "text-gray-600"
             }`}
           >
             {card.label}

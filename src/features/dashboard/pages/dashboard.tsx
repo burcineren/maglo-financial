@@ -253,68 +253,74 @@ export function Dashboard({ onSignOut }: DashboardProps) {
   ];
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      {/* Sidebar */}
-      <Sidebar onSignOut={onSignOut} />
+    <div className="flex flex-col md:flex-row min-h-screen bg-gray-50">
+      {/* Sidebar - Hidden on mobile, shown on medium screens and up */}
+      <div className="hidden md:block">
+        <Sidebar onSignOut={onSignOut} />
+      </div>
+
+      {/* Mobile Header - Only shown on small screens */}
+      <div className="md:hidden">
+        <DashboardHeader />
+      </div>
+
+      {/* Mobile Sidebar Toggle - Only shown on small screens */}
+      <div className="fixed bottom-4 right-4 z-50 md:hidden">
+        <button 
+          className="w-14 h-14 rounded-full bg-primary-500 text-white flex items-center justify-center shadow-lg"
+          onClick={() => {/* Add your mobile menu toggle logic here */}}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
+      </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <DashboardHeader />
+      <div className="flex-1 flex flex-col w-full">
+        {/* Desktop Header - Hidden on mobile */}
+        <div className="hidden md:block">
+          <DashboardHeader />
+        </div>
 
-        <main className="flex-1 p-6 overflow-auto">
-          <div className="max-w-[1400px] mx-auto">
-            {/* Balance Cards */}
-            <div
-              className={`mb-6 transition-all duration-500 ${
-                mounted ? "opacity-100" : "opacity-0"
-              }`}
-            ></div>
-
+        <main className="flex-1 p-4 md:p-6 overflow-auto">
+          <div className="max-w-[1400px] mx-auto w-full">
             {/* Main Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-6">
               {/* Left Column - Chart & Transactions */}
-              {/* <div className="lg:col-span-2 space-y-6">
-               
-              </div> */}
-              <div className="lg:col-span-2 space-y-6">
-                <BalanceCards cards={balanceCards} />
-                <div
-                  className={`transition-all duration-500 delay-100 ${
-                    mounted ? "opacity-100" : "opacity-0"
-                  }`}
-                >
-                  <WorkingCapitalChart
-                    data={chartData}
-                    timeRange={timeRange}
-                    onTimeRangeChange={setTimeRange}
-                    className="mt-6"
-                  />
+              <div className="lg:col-span-2 space-y-4 md:space-y-6">
+                {/* Balance Cards */}
+                <div className={`transition-all duration-500 ${mounted ? "opacity-100" : "opacity-0"}`}>
+                  <BalanceCards cards={balanceCards} />
                 </div>
 
-                <div
-                  className={`transition-all duration-500 delay-200 ${
-                    mounted ? "opacity-100" : "opacity-0"
-                  }`}
-                >
+                {/* Chart */}
+                <div className={`transition-all duration-500 delay-100 ${mounted ? "opacity-100" : "opacity-0"}`}>
+                  <div className="bg-white p-4 md:p-6 rounded-2xl border border-gray-200">
+                    <WorkingCapitalChart
+                      data={chartData}
+                      timeRange={timeRange}
+                      onTimeRangeChange={setTimeRange}
+                      className="w-full"
+                    />
+                  </div>
+                </div>
+
+                {/* Recent Transactions */}
+                <div className={`transition-all duration-500 delay-200 ${mounted ? "opacity-100" : "opacity-0"}`}>
                   <RecentTransactions transactions={transactions} />
                 </div>
               </div>
 
               {/* Right Column - Wallet & Transfers */}
-              <div className="space-y-6">
-                <div
-                  className={`transition-all duration-500 delay-150 ${
-                    mounted ? "opacity-100" : "opacity-0"
-                  }`}
-                >
+              <div className="space-y-4 md:space-y-6">
+                {/* Wallet Cards */}
+                <div className={`transition-all duration-500 delay-150 ${mounted ? "opacity-100" : "opacity-0"}`}>
                   <WalletCards wallets={wallets} />
                 </div>
 
-                <div
-                  className={`transition-all duration-500 delay-250 ${
-                    mounted ? "opacity-100" : "opacity-0"
-                  }`}
-                >
+                {/* Scheduled Transfers */}
+                <div className={`transition-all duration-500 delay-250 ${mounted ? "opacity-100" : "opacity-0"}`}>
                   <ScheduledTransfers transfers={transfers} />
                 </div>
               </div>

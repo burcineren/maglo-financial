@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# Maglo Financial Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern, responsive financial management platform built with React, TypeScript, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Authentication
 
-## React Compiler
+- ✅ Clean sign-in/sign-up form with validation
+- ✅ Real-time form validation with custom hooks
+- ✅ Loading states with smooth animations
+- ✅ Google Sign-In integration (UI)
+- ✅ Responsive design (mobile-first)
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Dashboard
 
-## Expanding the ESLint configuration
+- ✅ Financial statistics cards
+- ✅ Transaction list with proper formatting
+- ✅ Turkish Lira currency formatting
+- ✅ Smooth page transitions
+- ✅ Staggered animations
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Code Quality
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- ✅ Feature-based architecture
+- ✅ Kebab-case naming convention
+- ✅ Custom validation hooks
+- ✅ Reusable components
+- ✅ TypeScript strict mode
+- ✅ Proper separation of concerns
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 📦 Installation
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+# Install dependencies
+npm install
+
+# Start development server (requires Node.js 20.19+ or 22.12+)
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🛠️ Technologies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **React 19** - UI library
+- **TypeScript** - Type safety
+- **Vite** - Build tool & dev server
+- **Tailwind CSS** - Utility-first styling
+- **Zod** - Schema validation
+- **Recharts** - Data visualization
+- **ESLint** - Code quality
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎨 Best Practices Implemented
+
+### 1. Form Validation (Zod)
+
+- Custom `useFormValidation` hook with Zod
+- Type-safe schema validation
+- Real-time validation
+- Error clearing on input change
+- Comprehensive validation rules
+- Type inference from schemas
+
+### 2. Component Architecture
+
+- Small, focused components
+- Named exports
+- Props interfaces
+- Proper TypeScript typing
+
+### 3. State Management
+
+- useState for local state
+- useEffect for side effects
+- Proper cleanup
+- No prop drilling
+
+### 4. Styling
+
+- Tailwind utility classes
+- Responsive breakpoints
+- Smooth transitions
+- Custom animations
+
+### 5. Code Organization
+
+- Feature-based structure
+- Barrel exports (index.ts)
+- Kebab-case file names
+- Clear separation of concerns
+
+### 6. User Experience
+
+- Loading states
+- Smooth animations
+- Form feedback
+- Responsive design
+
+## 📝 License
+
+MIT

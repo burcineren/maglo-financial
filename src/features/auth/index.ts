@@ -1,2 +1,2 @@
-export { SignIn } from './pages/sign-in';
+export { SignUp } from './pages/sign-up';
 export { validateEmail } from './utils/validation';

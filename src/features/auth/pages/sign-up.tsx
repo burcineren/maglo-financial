@@ -6,14 +6,10 @@ import { SubmitButton } from "../components/submit-button";
 import { GoogleSignInButton } from "../components/google-sign-in-button";
 import signBgImage from "../../../assets/sign-bg.png";
 import logoImage from "../../../assets/logo.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../store/useAuthStore";
 
-interface SignInProps {
-  onSignIn: () => void;
-}
-
-// Zod validation schema
-const signInSchema = z.object({
+const signupSchema = z.object({
   fullName: z
     .string()
     .min(1, "Ad Soyad gereklidir")
@@ -30,28 +26,32 @@ const signInSchema = z.object({
     .max(100, "Şifre en fazla 100 karakter olabilir"),
 });
 
-type SignInFormData = z.infer<typeof signInSchema>;
+type SignupFormData = z.infer<typeof signupSchema>;
 
-export function SignIn({ onSignIn }: SignInProps) {
-  const [formData, setFormData] = useState<SignInFormData>({
+export function SignUp() {
+  const navigate = useNavigate();
+  const { signIn, loginWithGoogle, isLoading, isAuthenticated } =
+    useAuthStore();
+
+  const [formData, setFormData] = useState<SignupFormData>({
     fullName: "",
     email: "",
     password: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [mounted, setMounted] = useState(false);
 
-  const { errors, validateForm, clearError } = useFormValidation(signInSchema);
+  const { errors, validateForm, clearError } = useFormValidation(signupSchema);
 
+  // Redirect if already authenticated
   useEffect(() => {
-    setMounted(true);
-  }, []);
+    if (isAuthenticated) {
+      navigate("/", { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // Clear error when user starts typing
     if (errors[name]) {
       clearError(name);
     }
@@ -59,40 +59,32 @@ export function SignIn({ onSignIn }: SignInProps) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("user", JSON.stringify(formData));
-    // Validate form
+
     if (!validateForm(formData)) {
       return;
     }
 
-    // Simulate API call with loading state
-    setIsLoading(true);
-
-    setTimeout(() => {
-      setIsLoading(false);
-      onSignIn();
-    }, 1500);
+    try {
+      await signIn(formData.fullName, formData.email, formData.password);
+      navigate("/");
+    } catch (error) {
+      console.error("Sign up failed:", error);
+    }
   };
 
-  const handleGoogleSignIn = () => {
-    // Simulate Google sign in
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      onSignIn();
-    }, 1000);
+  const handleGoogleSignIn = async () => {
+    try {
+      await loginWithGoogle();
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Google sign up failed:", error);
+    }
   };
 
   return (
     <div className="flex min-h-screen w-full bg-white">
       {/* Left Side - Form */}
-      <div
-        className={`
-          flex flex-1 items-center justify-center p-8 lg:p-12
-          transition-opacity duration-700
-          ${mounted ? "opacity-100" : "opacity-0"}
-        `}
-      >
+      <div className="flex flex-1 items-center justify-center p-8 lg:p-12">
         <div className="w-full max-w-[400px]">
           {/* Logo */}
           <div className="mb-12 flex items-center gap-2">
@@ -109,20 +101,20 @@ export function SignIn({ onSignIn }: SignInProps) {
           {/* Header */}
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">
-              Create new account
+              Create New Account
             </h2>
             <p className="text-gray-600 text-sm">
-              Welcome back! Please enter your details
+              Enter your details to get started
             </p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <FormInput
               label="Full Name"
               name="fullName"
               type="text"
-              placeholder="Mahfuzul Nabil"
+              placeholder="Full Name"
               value={formData.fullName}
               onChange={handleInputChange}
               error={errors.fullName}
@@ -133,7 +125,7 @@ export function SignIn({ onSignIn }: SignInProps) {
               label="Email"
               name="email"
               type="email"
-              placeholder="example@gmail.com"
+              placeholder="example@email.com"
               value={formData.email}
               onChange={handleInputChange}
               error={errors.email}
@@ -151,54 +143,55 @@ export function SignIn({ onSignIn }: SignInProps) {
               autoComplete="new-password"
             />
 
-            <SubmitButton isLoading={isLoading} className="mt-2">
+            <SubmitButton
+              type="submit"
+              isLoading={isLoading}
+              className="w-full mt-6"
+            >
               Create Account
             </SubmitButton>
           </form>
 
           {/* Divider */}
-          <div className="flex items-center gap-4 my-6">
-            <div className="flex-1 h-px bg-gray-200" />
-            <div className="flex-1 h-px bg-gray-200" />
+          <div className="relative my-6">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-gray-300" />
+            </div>
+            <div className="relative flex justify-center text-sm">
+              <span className="px-2 bg-white text-gray-500">or</span>
+            </div>
           </div>
 
           {/* Google Sign In */}
-          <GoogleSignInButton onClick={handleGoogleSignIn} />
+          <GoogleSignInButton
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
+            isLoading={isLoading}
+            className="w-full"
+          >
+            Sign up with Google
+          </GoogleSignInButton>
 
           {/* Sign In Link */}
           <p className="text-center text-sm text-gray-600 mt-6">
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-gray-900 font-semibold hover:underline"
+              className="font-medium text-indigo-600 hover:text-indigo-500"
             >
-              <button
-                type="button"
-                className="text-gray-900 font-semibold hover:underline"
-              >
-                Sign in
-              </button>
+              Sign in
             </Link>
           </p>
         </div>
       </div>
 
       {/* Right Side - Image */}
-      <div
-        className={`
-          hidden lg:flex flex-1 items-center justify-center 
-          bg-gradient-to-br from-gray-50 to-gray-100
-          transition-all duration-700 delay-200
-          ${mounted ? "opacity-100 translate-x-0" : "opacity-0 translate-x-10"}
-        `}
-      >
-        <div className="relative w-full h-full flex items-center justify-center">
-          <img
-            src={signBgImage}
-            alt="Sign in illustration"
-            className="max-w-full max-h-full object-contain animate-fade-in"
-          />
-        </div>
+      <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-center lg:bg-gray-50 ">
+        <img
+          src={signBgImage}
+          alt="Authentication"
+          className="h-full max-h-screen w-full max-w-2xl "
+        />
       </div>
     </div>
   );

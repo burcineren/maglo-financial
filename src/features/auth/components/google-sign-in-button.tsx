@@ -1,13 +1,24 @@
-interface GoogleSignInButtonProps {
+import type { ButtonHTMLAttributes } from 'react';
+
+interface GoogleSignInButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   onClick?: () => void;
+  isLoading?: boolean;
 }
 
-export function GoogleSignInButton({ onClick }: GoogleSignInButtonProps) {
+export function GoogleSignInButton({ 
+  onClick, 
+  isLoading = false, 
+  className = '', 
+  disabled = false,
+  children = 'Sign up with google',
+  ...props 
+}: GoogleSignInButtonProps) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className="
+      disabled={isLoading || disabled}
+      className={`
         w-full px-6 py-3
         bg-white border border-gray-300
         text-gray-700 font-medium text-base
@@ -16,7 +27,10 @@ export function GoogleSignInButton({ onClick }: GoogleSignInButtonProps) {
         flex items-center justify-center gap-3
         hover:bg-gray-50 hover:border-gray-400
         hover:shadow-md
-      "
+        disabled:opacity-50 disabled:cursor-not-allowed
+        ${className}
+      `}
+      {...props}
     >
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
         <path
@@ -36,7 +50,7 @@ export function GoogleSignInButton({ onClick }: GoogleSignInButtonProps) {
           fill="#EA4335"
         />
       </svg>
-      Sign up with google
+      {isLoading ? 'Signing in...' : children}
     </button>
   );
 }

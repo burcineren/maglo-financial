@@ -1,76 +1,30 @@
-import { useState, useEffect } from "react";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  Navigate,
-} from "react-router-dom";
-import { SignIn } from "./features/auth/pages/sign-in";
-import { Login } from "./features/auth/pages/login";
-import { Dashboard } from "./features/dashboard";
+import { BrowserRouter as Router, useRoutes } from "react-router-dom";
+import { routes } from "./routes";
+import { useAuthStore } from "./features/auth/store/useAuthStore";
+import { useEffect } from "react";
 
-function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    // Check if user is already authenticated
-    const user = localStorage.getItem("user");
-    return !!user;
-  });
-
-  const handleSignIn = () => {
-    setIsAuthenticated(true);
-  };
-
-  const handleSignOut = () => {
-    localStorage.removeItem("user");
-    setIsAuthenticated(false);
-    return <Navigate to="/login" replace />;
-  };
-
-  // Create router configuration
-  const router = createBrowserRouter([
-    {
-      path: "/",
-      element: isAuthenticated ? (
-        <Dashboard onSignOut={handleSignOut} />
-      ) : (
-        <Navigate to="/sign-up" replace />
-      ),
-    },
-    {
-      path: "/login",
-      element: isAuthenticated ? (
-        <Navigate to="/" replace />
-      ) : (
-        <Login onSignIn={handleSignIn} />
-      ),
-    },
-    {
-      path: "/sign-up",
-      element: isAuthenticated ? (
-        <Navigate to="/" replace />
-      ) : (
-        <SignIn onSignIn={handleSignIn} />
-      ),
-    },
-    {
-      path: "*",
-      element: <Navigate to="/" replace />,
-    },
-  ]);
-
-  // Update isAuthenticated when localStorage changes
+function AppContent() {
+  // Initialize auth state from localStorage when component mounts
   useEffect(() => {
-    const handleStorageChange = () => {
-      const user = localStorage.getItem("user");
-      setIsAuthenticated(!!user);
-    };
-
-    window.addEventListener("storage", handleStorageChange);
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
+    const storedAuth = localStorage.getItem('auth_state');
+    if (storedAuth) {
+      const { user, isAuthenticated } = JSON.parse(storedAuth);
+      if (user && isAuthenticated) {
+        useAuthStore.setState({ user, isAuthenticated });
+      }
+    }
   }, []);
 
-  return <RouterProvider router={router} />;
+  const routing = useRoutes(routes);
+  return routing;
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
 }
 
 export default App;

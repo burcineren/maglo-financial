@@ -16,18 +16,18 @@ export const routes: RouteObject[] = [
     ),
   },
   {
-    path: "/login",
-    element: (
-      <PublicRoute>
-        <Login />
-      </PublicRoute>
-    ),
-  },
-  {
     path: "/sign-up",
     element: (
       <PublicRoute>
         <SignUp />
+      </PublicRoute>
+    ),
+  },
+  {
+    path: "/login",
+    element: (
+      <PublicRoute>
+        <Login />
       </PublicRoute>
     ),
   },

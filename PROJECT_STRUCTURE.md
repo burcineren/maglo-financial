@@ -1,15 +1,18 @@
-# Maglo Financial - Proje Yapısı
+# Maglo Financial - Project Structure
 
-## 📁 Dosya Organizasyonu (Best Practices)
+## 📁 File Organization (Best Practices)
 
 ```
 src/
 ├── features/                    # Feature-based architecture
 │   ├── auth/                   # Authentication feature
 │   │   ├── pages/
-│   │   │   └── sign-in.tsx    # Sign in page
-│   │   ├── utils/
-│   │   │   └── validation.ts  # Email validation
+│   │   │   ├── sign-in.tsx    # Sign in page
+│   │   │   └── sign-up.tsx    # Sign up page
+│   │   ├── components/
+│   │   │   └── google-sign-in-button.tsx
+│   │   ├── store/
+│   │   │   └── useAuthStore.ts # Authentication state management
 │   │   └── index.ts           # Public exports
 │   │
 │   └── dashboard/              # Dashboard feature
@@ -22,41 +25,58 @@ src/
 │       │   └── transaction-item.tsx
 │       └── index.ts           # Public exports
 │
-├── shared/                     # Shared/common components
-│   └── components/
-│       ├── loading-spinner.tsx
-│       └── index.ts
+├── shared/                     # Shared components and utilities
+│   ├── components/            # Reusable UI components
+│   │   ├── loading-spinner.tsx
+│   │   └── index.ts
+│   ├── hooks/                 # Custom React hooks
+│   │   └── useForm.tsx
+│   └── utils/                 # Utility functions
+│       └── validation.ts
 │
-├── App.tsx                     # Main app component
-├── main.tsx                    # Entry point
-└── index.css                   # Global styles (Tailwind)
+├── App.tsx                    # Main app component
+├── main.tsx                   # Entry point
+├── routes.tsx                 # Application routes
+└── index.css                  # Global styles (Tailwind)
 ```
 
 ## 🎯 Naming Conventions
 
-- **Files**: kebab-case (örn: `sign-in.tsx`, `dashboard-header.tsx`)
-- **Components**: PascalCase (örn: `SignIn`, `DashboardHeader`)
-- **Functions**: camelCase (örn: `handleSignIn`, `validateEmail`)
-- **Folders**: kebab-case (örn: `features`, `shared`)
+- **Files**: kebab-case (e.g., `sign-in.tsx`, `dashboard-header.tsx`)
+- **Components**: PascalCase (e.g., `SignIn`, `DashboardHeader`)
+- **Functions**: camelCase (e.g., `handleSignIn`, `validateEmail`)
+- **Hooks**: `use` prefix (e.g., `useAuth`, `useForm`)
+- **Types/Interfaces**: PascalCase with 'I' prefix (e.g., `IUser`, `IAuthState`)
+- **Folders**: kebab-case (e.g., `features`, `shared`)
 
 ## 🏗️ Architecture Patterns
 
 ### Feature-Based Structure
-Her özellik kendi klasöründe organize edilmiş:
-- **pages/**: Sayfa bileşenleri
-- **components/**: Feature-specific bileşenler
-- **utils/**: Yardımcı fonksiyonlar
+
+Each feature is organized in its own directory:
+
+- **pages/**: Page components (top-level route components)
+- **components/**: Feature-specific components
+- **store/**: State management (Zustand stores)
+- **utils/**: Helper functions and utilities
+- **hooks/**: Custom React hooks
 - **index.ts**: Public API (barrel exports)
 
-### Component Organization
-- Küçük, tek sorumluluk prensibi
-- Reusable components `shared/` altında
-- Feature-specific components kendi feature'ında
+### State Management
 
-### Styling
-- Tailwind CSS utility-first approach
-- Inline className kullanımı
-- Responsive design (mobile-first)
+- **Zustand** for global state management
+- React Context for theme and auth state
+- React Query for server state management (if applicable)
+
+### Styling & Component Organization
+
+- **Tailwind CSS** for utility-first styling
+- CSS Modules for component-scoped styles (if needed)
+- Responsive design with mobile-first approach
+- Small, single-responsibility components
+- Reusable components in `shared/` directory
+- Feature-specific components in their respective feature directories
+- Inline className usage with Tailwind
 
 ## 🚀 Teknolojiler
 

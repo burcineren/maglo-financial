@@ -94,7 +94,7 @@ export function Login() {
 
           {/* Form */}
           <form
-            className="w-full max-w-md p-8 space-y-6 bg-white"
+            className="w-full max-w-md p-6 space-y-6 bg-white"
             onSubmit={handleSubmit(onSubmit)}
           >
             <div className="space-y-4">

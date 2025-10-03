@@ -6,48 +6,104 @@ Modern, responsive financial management platform built with React, TypeScript, a
 
 ### Authentication
 
-- ✅ Clean sign-in/sign-up form with validation
-- ✅ Real-time form validation with custom hooks
+- ✅ Clean sign-in/sign-up forms with real-time validation
+- ✅ Form state management with React Hook Form
 - ✅ Loading states with smooth animations
-- ✅ Google Sign-In integration (UI)
-- ✅ Responsive design (mobile-first)
+- ✅ Google Sign-In integration
+- ✅ Protected routes and authentication flow
 
 ### Dashboard
 
-- ✅ Financial statistics cards
-- ✅ Transaction list with proper formatting
-- ✅ Turkish Lira currency formatting
-- ✅ Smooth page transitions
-- ✅ Staggered animations
+- ✅ Financial overview with statistics cards
+- ✅ Transaction list with filtering and sorting
+- ✅ Currency formatting (Turkish Lira)
+- ✅ Responsive design (mobile-first approach)
+- ✅ Smooth page transitions and animations
 
-### Code Quality
+### Developer Experience
 
-- ✅ Feature-based architecture
-- ✅ Kebab-case naming convention
-- ✅ Custom validation hooks
-- ✅ Reusable components
-- ✅ TypeScript strict mode
-- ✅ Proper separation of concerns
+- ⚡ **Vite** for fast development and building
+- 🎨 **Tailwind CSS** for utility-first styling
+- 🔒 **TypeScript** for type safety
+- 🧩 **Feature-based** architecture
+- 🧪 **Testing** with Vitest and React Testing Library
+- 🎯 **ESLint** and **Prettier** for code quality
 
-## 📦 Installation
+## 🚀 Getting Started
 
-```bash
-# Install dependencies
-npm install
+### Prerequisites
 
-# Start development server (requires Node.js 20.19+ or 22.12+)
-npm run dev
+- Node.js 20.19+ or 22.12+
+- npm or yarn
 
-# Build for production
-npm run build
+### Installation
 
-# Preview production build
-npm run preview
-```
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/maglo-financial.git
+   cd maglo-financial
+   ```
 
-## 🛠️ Technologies
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn
+   ```
 
-- **React 19** - UI library
+3. Start the development server:
+   ```bash
+   npm run dev
+   # or
+   yarn dev
+   ```
+
+4. Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run test` - Run tests
+- `npm run lint` - Lint code
+- `npm run format` - Format code with Prettier
+
+## 🛠️ Tech Stack
+
+- **Frontend Framework**: React 19
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: Zustand
+- **Form Handling**: React Hook Form
+- **Routing**: React Router
+- **Build Tool**: Vite
+- **Testing**: Vitest + React Testing Library
+- **Linting**: ESLint + Prettier
+
+## 📂 Project Structure
+
+For a detailed project structure, please see the [PROJECT_STRUCTURE.md](./PROJECT_STRUCTURE.md) file.
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Zustand](https://github.com/pmndrs/zustand)
+- [React Hook Form](https://react-hook-form.com/)
 - **TypeScript** - Type safety
 - **Vite** - Build tool & dev server
 - **Tailwind CSS** - Utility-first styling

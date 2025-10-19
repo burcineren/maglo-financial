@@ -1,0 +1,98 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String?
+  email     String    @unique
+  password  String
+  role      Role      @default(USER)
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+}
+
+model Studio {
+  id          Int          @id @default(autoincrement())
+  name        String
+  address     String?
+  phone       String?
+  classes     Class[]
+  instructors Instructor[]
+  createdAt   DateTime     @default(now())
+}
+
+model Instructor {
+  id        Int        @id @default(autoincrement())
+  name      String
+  bio       String?
+  studioId  Int
+  studio    Studio     @relation(fields: [studioId], references: [id])
+  schedules Schedule[]
+}
+
+model Class {
+  id        Int        @id @default(autoincrement())
+  name      String
+  price     Float
+  capacity  Int
+  studioId  Int
+  studio    Studio     @relation(fields: [studioId], references: [id])
+  schedules Schedule[]
+}
+
+model Schedule {
+  id           Int        @id @default(autoincrement())
+  classId      Int
+  class        Class      @relation(fields: [classId], references: [id])
+  instructorId Int
+  instructor   Instructor @relation(fields: [instructorId], references: [id])
+  startTime    DateTime
+  endTime      DateTime
+  bookings     Booking[]
+}
+
+model Booking {
+  id         Int           @id @default(autoincrement())
+  userId     Int
+  user       User          @relation(fields: [userId], references: [id])
+  scheduleId Int
+  schedule   Schedule      @relation(fields: [scheduleId], references: [id])
+  status     BookingStatus @default(PENDING)
+  payment    Payment[]
+  createdAt  DateTime      @default(now())
+}
+
+model Payment {
+  id          Int           @id @default(autoincrement())
+  bookingId   Int
+  booking     Booking       @relation(fields: [bookingId], references: [id])
+  amount      Float
+  provider    String
+  providerRef String?
+  status      PaymentStatus @default(PENDING)
+  createdAt   DateTime      @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+  STUDIO_OWNER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+}
